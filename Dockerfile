@@ -7,7 +7,7 @@ ADD ./requirements.txt /tmp/requirements.txt
 RUN chmod +x /entrypoint.sh
 
 RUN apk update \
-    && apk add --no-cache python3-dev==3.9.6-r0 py3-pip postgresql-dev \
+    && apk add --no-cache python3-dev==3.9.5-r1 py3-pip postgresql-dev \
     && apk add --no-cache --virtual build-deps gcc musl-dev apache2-mod-wsgi \
     && pip3 install --no-cache-dir -r /tmp/requirements.txt \
     && cp /usr/lib/apache2/mod_wsgi.so /usr/local/apache2/modules/ \
