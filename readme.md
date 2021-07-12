@@ -1,4 +1,7 @@
-# Mood Recorder
+# API Server For Professional App
+
+![build](https://github.com/professional-app/api_server/actions/workflows/docker-build.yml/badge.svg)
+![tests](https://github.com/professional-app/api_server/actions/workflows/django-unit-tests.yml/badge.svg)
 
 ## Initial Setup
 
@@ -26,7 +29,7 @@ systemctl stop postgresql
 systemctl restart postgresql
 ```
 
-To setup pg, just run the following:
+To setup postgres, run the following:
 ```
 source ./api.env
 cat << EOF > ./pg-setup.sql
@@ -62,23 +65,24 @@ ln -s /usr/bin/python3.9 /usr/bin/python3
 
 ### Install Virtual Environment
 
-If python3-venv is not installed, install it through apt:
-`apt install python3-venv`
+If virtualenv is not installed, install it through apt:
+`apt install virtualenv`
 
 ```
-python3 -m venv .
-source ./bin/activate
-pip3 install -r requirements.txt
+virtualenv venv
+source ./venv/bin/activate
+python -m pip install pip -U
+pip install -r requirements.txt
 ```
 
 ## Run Django
 
 ```
-source ./bin/activate
+source ./venv/bin/activate
 source ./api.env
 cd ./api_project
-./manage.py makemigrations
-./manage.py migrate
-./manage.py runserver
+python ./manage.py makemigrations
+python ./manage.py migrate
+python ./manage.py runserver
 ```
 
