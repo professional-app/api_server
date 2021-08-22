@@ -3,25 +3,13 @@ from django.shortcuts import render
 # Create your views here.
 import requests
 
-import eons, esam
+from professionals import Entity
 import json
 
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 
 def get_remote_api(query):
     return requests.get(f'https://professional.app/wp-json/wp/v2/{query}').content.decode("ascii")
-
-class Entity(esam.Datum):
-    def __init__(self, id=0, name=eons.INVALID_NAME()):
-        super().__init__(name)
-        self.uniqueId = id
-        self.image_url = ""
-        self.contact_url = ""
-        self.description = ""
-        self.activities = []
-        self.interests = []
-        self.solicitations = []
-        self.relationships = {}
 
 def get_remote_entity(entity_id=0):
     entity = Entity()
