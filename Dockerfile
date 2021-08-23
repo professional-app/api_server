@@ -10,7 +10,6 @@ RUN apk update \
     && apk add postgresql-dev \
     && apk add --no-cache --virtual build-deps gcc musl-dev apache2-mod-wsgi \
     && pip install --no-cache-dir -r /tmp/requirements.txt \
-    && cp /usr/lib/apache2/mod_wsgi.so /usr/local/apache2/modules/ \
     && apk del --purge build-deps
 
 EXPOSE 80
