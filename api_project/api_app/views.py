@@ -22,6 +22,7 @@ def get_remote_entity(entity_id=0):
 
         entity.uniqueId = entity_json["id"]
         entity.name = entity_json["title"]["rendered"]
+        entity.image_url = json.loads(get_remote_api(f"media?include={entity_json['featured_media']}"))[0]["guid"]["rendered"]
         for i in entity_json["interests"]:
             entity.interests.append(i["post_title"])
         for a in entity_json["activities"]:
@@ -40,6 +41,3 @@ def index(request):
         return JsonResponse(entity.ToJSON(), safe=False)
     else:
         return HttpResponseBadRequest("Invalid entity request.")
-
-def wolf(request):
-    return anything('entity')
