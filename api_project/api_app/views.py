@@ -3,17 +3,43 @@ from django.shortcuts import render
 # Create your views here.
 import requests
 
-from django.http import HttpResponse, JsonResponse
+from professionals import Entity
+import json
 
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 
-def make_api_call(path):
-    return  JsonResponse(requests.get(f'https://professional.app/wp-json/wp/v2/{path}').content.decode("ascii"), safe=False)
+def get_remote_api(query):
+    return requests.get(f'https://professional.app/wp-json/wp/v2/{query}').content.decode("ascii")
 
-#def list_relationships(request):
-#    return make_api_call(f'entity?include={entity_id}&_fields=relationships')
+def get_remote_entity(entity_id=0):
+    entity = Entity()
+    if not entity_id:
+        entity.Invalidate()
+        return entity
 
-def pages(request):
-    return make_api_call('pages')
+    try:
+        entity_json = json.loads(get_remote_api(f"entity?include={entity_id}"))[0]
 
-def entity(request):
-    return make_api_call('entity')
+        entity.uniqueId = entity_json["id"]
+        entity.name = entity_json["title"]["rendered"]
+        for i in entity_json["interests"]:
+            entity.interests.append(i["post_title"])
+        for a in entity_json["activities"]:
+            entity.activities.append(a["post_title"])
+
+        entity.MakeValid()
+        return entity
+
+    except Exception as e:
+        entity.Invalidate()
+        return entity
+
+def index(request):
+    entity = get_remote_entity(request.GET["entity"])
+    if entity.IsValid():
+        return JsonResponse(entity.ToJSON(), safe=False)
+    else:
+        return HttpResponseBadRequest("Invalid entity request.")
+
+def wolf(request):
+    return anything('entity')
