@@ -1,6 +1,6 @@
 FROM python:alpine
 
-COPY ./api_project /var/www/html/api_project
+COPY ./api_project /var/www/html/
 ADD ./docker/entrypoint.sh /entrypoint.sh
 ADD ./requirements.txt /tmp/requirements.txt
 
