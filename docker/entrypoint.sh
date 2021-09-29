@@ -10,4 +10,4 @@ cd $API_PATH
 python manage.py makemigrations
 python manage.py migrate --noinput
 
-exec "python manage.py $@"
+exec "$(which python) ${API_PATH}/manage.py $@"
