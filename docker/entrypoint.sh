@@ -9,5 +9,4 @@ cd $API_PATH
 #Do this every time, even though its wasteful on startup.
 python manage.py makemigrations
 python manage.py migrate --noinput
-
-exec "$(which python) ${API_PATH}/manage.py $@"
+python manage.py $@
